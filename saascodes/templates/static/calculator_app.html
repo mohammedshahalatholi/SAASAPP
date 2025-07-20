@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SaasCodes Scientific Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #ecf1f6; }
+        .calc-wrap { max-width: 770px; margin: 38px auto; background: #fff; border-radius: 14px; box-shadow: 0 4px 28px #b0bfcf40; padding: 32px 24px; }
+        .display-box { min-height: 70px; font-size: 1.7rem; background: #f5f6fa; border:1.7px solid #dce1ea; border-radius: 7px; margin-bottom: 18px; padding:12px 14px; outline:none; width:100%; }
+        .keypad-table td { padding: 2px;}
+        .key-btn { width: 54px; height: 45px; font-size: 1.11em; border-radius: 5px; border: 1px solid #d4dbe1; background: #fafdff; color: #29334a; transition:.11s;}
+        .key-btn:active,.key-btn.active { background: #378fff; color: #fff; }
+        .equals-btn { background: #378fff; color:#fff; font-weight:600; width:90px;}
+        .op-btn { background: #eaf6f3; color:#376c52;}
+        .result,.error { margin-top:1em; padding:1em; border-radius:6px; }
+        .result{ background:#e7faea; color:#236c29; border:1px solid #5fc183;}
+        .error { background:#fae7e7; color:#9c2424; border:1px solid #cf4343;}
+    </style>
+</head>
+<body>
+<div class="calc-wrap">
+    <nav class="navbar navbar-light" style="background: #ecf1f6;">
+        <div class="container-fluid justify-content-center">
+            <ul class="nav">
+                <li class="nav-item"><span class="nav-link">Math Tools ▼</span></li>
+                <li class="nav-item"><span class="nav-link">Resources ▼</span></li>
+                <li class="nav-item"><span class="nav-link">Partnerships ▼</span></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Editable Input -->
+    <form id="calc-form" method="post" autocomplete="off">
+        {% csrf_token %}
+        <textarea id="calc-input" name="expression" class="display-box" autocomplete="off" rows="2" placeholder="Type or use the buttons...">{% if expression %}{{ expression }}{% endif %}</textarea>
+        <input type="hidden" name="deg_mode" id="deg_mode" value="{% if deg_mode %}1{% else %}0{% endif %}">
+    </form>
+
+    <!-- Function/Operator Keypad Examples (expand as needed) -->
+    <table class="keypad-table mb-2">
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="^2">a²</button></td>
+            <td><button class="key-btn" type="button" data-insert="^">aᵇ</button></td>
+            <td><button class="key-btn" type="button" data-insert="abs()">|a|</button></td>
+            <td><button class="key-btn" type="button" data-insert="sqrt()">√</button></td>
+            <td><button class="key-btn" type="button" data-insert="pi">π</button></td>
+        </tr>
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="sin()">sin</button></td>
+            <td><button class="key-btn" type="button" data-insert="cos()">cos</button></td>
+            <td><button class="key-btn" type="button" data-insert="tan()">tan</button></td>
+            <td><button class="key-btn" type="button" data-insert="(">(</button></td>
+            <td><button class="key-btn" type="button" data-insert=")">)</button></td>
+        </tr>
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="log()">log</button></td>
+            <td><button class="key-btn" type="button" data-insert="log10()">log₁₀</button></td>
+            <td><button class="key-btn" type="button" data-insert="exp()">exp</button></td>
+            <td><button class="key-btn" type="button" data-insert="factorial()">n!</button></td>
+            <td><button class="key-btn" type="button" data-insert="compound_interest()">cmpd int</button></td>
+        </tr>
+    </table>
+
+    <!-- Number Pad -->
+    <table class="keypad-table mb-2">
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="7">7</button></td>
+            <td><button class="key-btn" type="button" data-insert="8">8</button></td>
+            <td><button class="key-btn" type="button" data-insert="9">9</button></td>
+            <td><button class="key-btn op-btn" type="button" data-insert="/">÷</button></td>
+        </tr>
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="4">4</button></td>
+            <td><button class="key-btn" type="button" data-insert="5">5</button></td>
+            <td><button class="key-btn" type="button" data-insert="6">6</button></td>
+            <td><button class="key-btn op-btn" type="button" data-insert="*">×</button></td>
+        </tr>
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="1">1</button></td>
+            <td><button class="key-btn" type="button" data-insert="2">2</button></td>
+            <td><button class="key-btn" type="button" data-insert="3">3</button></td>
+            <td><button class="key-btn op-btn" type="button" data-insert="-">−</button></td>
+        </tr>
+        <tr>
+            <td><button class="key-btn" type="button" data-insert="0">0</button></td>
+            <td><button class="key-btn" type="button" data-insert=".">.</button></td>
+            <td><button class="key-btn op-btn" type="button" data-insert="+">+</button></td>
+            <td><button class="equals-btn" id="equals-btn" type="button">=</button></td>
+        </tr>
+    </table>
+    <div class="mt-2 d-flex">
+        <button class="btn btn-light me-2" type="button" id="back-btn">⌫</button>
+        <div class="btn-group me-2">
+            <button id="deg-btn" type="button" class="btn btn-outline-secondary btn-sm active">DEG</button>
+            <button id="rad-btn" type="button" class="btn btn-outline-secondary btn-sm">RAD</button>
+        </div>
+        <button class="btn btn-warning btn-sm" type="button" id="clear-btn">Clear</button>
+    </div>
+    <!-- Output -->
+    {% if result != "" %}
+      <div class="result mt-3"><b>Result:</b> {{ result }}</div>
+    {% endif %}
+    {% if error %}
+      <div class="error mt-3"><b>Error:</b> {{ error }}</div>
+    {% endif %}
+</div>
+<script>
+const input = document.getElementById('calc-input');
+input.focus(); // autofocus
+
+// Insert value at cursor for keypad button clicks
+document.querySelectorAll('.key-btn').forEach(btn => {
+    btn.onclick = function() {
+        const val = btn.getAttribute('data-insert');
+        const start = input.selectionStart, end = input.selectionEnd;
+        let ins = val;
+        let move = 0;
+        if (/^[a-z]+\\(\\)$/.test(val)) { ins = val.slice(0,-1) + ')'; move = -1; }
+        input.value = input.value.slice(0, start) + ins + input.value.slice(end);
+        input.focus();
+        input.setSelectionRange(start + ins.length + move, start + ins.length + move);
+    }
+});
+document.getElementById('back-btn').onclick = function() {
+    const start = input.selectionStart, end = input.selectionEnd;
+    if(start === end && start > 0){
+        input.value = input.value.slice(0, start-1) + input.value.slice(end);
+        input.setSelectionRange(start-1, start-1);
+    } else {
+        input.value = input.value.slice(0, start) + input.value.slice(end);
+        input.setSelectionRange(start, start);
+    }
+    input.focus();
+};
+document.getElementById('clear-btn').onclick = function() { input.value = ""; input.focus(); };
+document.getElementById('equals-btn').onclick = function() { document.getElementById('calc-form').submit(); };
+// DEG/RAD mode toggle
+let deg = true;
+document.getElementById('deg-btn').onclick = function(){
+    deg = true; this.classList.add('active'); document.getElementById('rad-btn').classList.remove('active');
+    document.getElementById('deg_mode').value = "1";
+};
+document.getElementById('rad-btn').onclick = function(){
+    deg = false; this.classList.add('active'); document.getElementById('deg-btn').classList.remove('active');
+    document.getElementById('deg_mode').value = "0";
+};
+// Enter = evaluate
+input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('equals-btn').click(); }
+});
+</script>
+</body>
+</html>

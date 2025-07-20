@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Theme Made By www.w3schools.com -->
+  <!-- Theme Modified By SaasCodes | Original Inspiration: www.w3schools.com -->
   <title>Bootstrap Theme Company Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--
+    Copyright (c) 2025 SaasCodes
+    All rights reserved.
+    Original layout portions inspired by W3Schools and Bootstrap.
+    This code is the exclusive property of SaasCodes. No part may be redistributed without permission.
+  -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -198,16 +204,16 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>                  
       </button>
-      <a class="navbar-brand" href="#myPage">Logo</a>
+      <a class="navbar-brand" href="#myPage">SaasCodes</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#about">ABOUT</a></li>
         <li><a href="#services">SERVICES</a></li>
-        <li><a href="#portfolio">PORTFOLIO</a></li>
-        <li><a href="#pricing">PRICING</a></li>
+        <li><a href="{%url 'weather_dashboard'%}">Weather</a></li>
+        <li><a href="{%url 'admin_page'%}">Admin</a></li>
         <li><a href="#contact">CONTACT</a></li>
       </ul>
     </div>
@@ -215,8 +221,8 @@
 </nav>
 
 <div class="jumbotron text-center">
-  <h1>Company</h1> 
-  <p>We specialize in blablabla</p> 
+  <h1>SaasCodes</h1> 
+  <p>We here</p> 
   <form>
     <div class="input-group">
       <input type="email" class="form-control" size="50" placeholder="Email Address" required>
@@ -231,9 +237,9 @@
 <div id="about" class="container-fluid">
   <div class="row">
     <div class="col-sm-8">
-      <h2>About Company Page</h2><br>
-      <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h2>About SaasCodes</h2><br>
+      <h4>SaasCodes is a startup software company aiming to deliver innovative, scalable software solutions for businesses and individuals. As a modern software provider, SaasCodes focuses on developing reliable, user-friendly products that empower companies to streamline operations and accelerate digital transformation.</h4><br>
+      <p></p>
       <br><button class="btn btn-default btn-lg">Get in Touch</button>
     </div>
     <div class="col-sm-4">
@@ -249,21 +255,22 @@
     </div>
     <div class="col-sm-8">
       <h2>Our Values</h2><br>
-      <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-      <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h4><strong>MISSION:</strong> To provide cutting-edge software solutions that drive business efficiency and growth.
+
+        To support startups and enterprises by offering customizable, scalable Software-as-a-Service (SaaS) products tailored to market needs.</h4><br>
+      <p><strong>VISION:</strong>Become a trusted technology partner with a reputation for delivering quality and customer-centric software.
+
+        Foster long-term relationships with clients by consistently offering value, innovation, and support..</p>
     </div>
   </div>
 </div>
 
 <!-- Container (Services Section) -->
 {% block services %}
-
 {% endblock services %}
 
-
 <!-- Container (Portfolio Section) -->
-<div id="portfolio" class="container-fluid text-center bg-grey">
+<!-- <div id="portfolio" class="container-fluid text-center bg-grey">
   <h2>Portfolio</h2><br>
   <h4>What we have created</h4>
   <div class="row text-center slideanim">
@@ -289,18 +296,16 @@
       </div>
     </div>
   </div><br>
-  
-  <h2>What our customers say</h2>
-  <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
+   -->
+
+    <!-- <ol class="carousel-indicators">
       <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
       <li data-target="#myCarousel" data-slide-to="1"></li>
       <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
+    </ol>  -->
 
     <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
+    <!-- <div class="carousel-inner" role="listbox">
       <div class="item active">
         <h4>"This company is the best. I am so happy with the result!"<br><span>Michael Roe, Vice President, Comment Box</span></h4>
       </div>
@@ -310,10 +315,10 @@
       <div class="item">
         <h4>"Could I... BE any more happy with this company?"<br><span>Chandler Bing, Actor, FriendsAlot</span></h4>
       </div>
-    </div>
+    </div> -->
 
     <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
@@ -322,10 +327,10 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-</div>
+</div> -->
 
 <!-- Container (Pricing Section) -->
-<div id="pricing" class="container-fluid">
+<!-- <div id="pricing" class="container-fluid">
   <div class="text-center">
     <h2>Pricing</h2>
     <h4>Choose a payment plan that works for you</h4>
@@ -389,17 +394,17 @@
       </div>      
     </div>    
   </div>
-</div>
+</div> -->
 
 <!-- Container (Contact Section) -->
 <div id="contact" class="container-fluid bg-grey">
   <h2 class="text-center">CONTACT</h2>
   <div class="row">
     <div class="col-sm-5">
-      <p>Contact us and we'll get back to you within 24 hours.</p>
+      <p>Contact SaasCodes and we'll get back to you within 24 hours.</p>
       <p><span class="glyphicon glyphicon-map-marker"></span> Chicago, US</p>
       <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
-      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> contact@saascodes.com</p>
     </div>
     <div class="col-sm-7 slideanim">
       <div class="row">
@@ -421,13 +426,13 @@
 </div>
 
 <!-- Image of location/map -->
-<img src="/w3images/map.jpg" class="w3-image w3-greyscale-min" style="width:100%">
+<!-- <img src="/w3images/map.jpg" class="w3-image w3-greyscale-min" style="width:100%"> -->
 
 <footer class="container-fluid text-center">
   <a href="#myPage" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
-  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
+  <p>© 2025 SaasCodes. Inspired by W3Schools and powered by Bootstrap.</p>
 </footer>
 
 <script>

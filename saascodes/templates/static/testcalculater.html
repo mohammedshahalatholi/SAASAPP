@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SaasCodes Scientific Calculator</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #ecf1f6; }
+        .calc-wrap { max-width: 710px; margin: 38px auto; background: #fff; border-radius: 14px;
+                     box-shadow: 0 4px 28px #b0bfcf55; padding: 32px 24px 24px 24px; }
+        .display-box { min-height: 90px; font-size: 2rem; background: #f5f6fa;
+                       border:1.7px solid #dce1ea; border-radius: 7px; 
+                       margin-bottom: 18px; padding: 18px; word-break:break-word;}
+        .keypad-tabs { margin-bottom: 14px; }
+        .keypad-panel[hidden] { display:none; }
+        .keypad-table td { padding: 8px; }
+        .key-btn { width: 55px; height: 48px; font-size: 1.18em; border-radius: 6px; border: 1px solid #d4dbe1;
+                   background: #fafdff; color: #29334a; transition:.11s;}
+        .key-btn:active,.key-btn.active { background: #378fff; color: #fff; }
+        .key-btn.special { background:#f6f6f9; color:#738093; }
+        .op-btn { background: #eaf6f3; color:#3f805c;}
+        .equals-btn { background: #378fff; color:#fff; font-weight:600; width:94px;}
+        @media (max-width:800px){.calc-wrap{padding:8vw 2vw;min-width:0;}}
+    </style>
+</head>
+<body>
+<div class="calc-wrap">
+    <!-- Menu Bar -->
+    <nav class="navbar navbar-light" style="background: #ecf1f6;">
+        <div class="container-fluid justify-content-center">
+            <ul class="nav">
+                <li class="nav-item"><span class="nav-link">Math Tools ▼</span></li>
+                <li class="nav-item"><span class="nav-link">Resources ▼</span></li>
+                <li class="nav-item"><span class="nav-link">Partnerships ▼</span></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Display Area -->
+    <div class="display-box" id="calc-display" contenteditable="false">{{ expression|default:"" }}</div>
+    <!-- Tabbed Keypad -->
+    <ul class="nav nav-tabs keypad-tabs" id="keypadTab" role="tablist">
+      <li class="nav-item"><button class="nav-link active" data-bs-target="#mainpad" data-bs-toggle="tab">main</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-target="#funcpad" data-bs-toggle="tab">func</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-target="#abcpad" data-bs-toggle="tab">abc</button></li>
+    </ul>
+    <div class="tab-content">
+      <!-- Main pad -->
+      <div class="tab-pane fade show active keypad-panel" id="mainpad">
+        <table class="keypad-table">
+          <tr>
+            <td><button class="key-btn" data-val="^2"><sup>a</sup><sup>2</sup></button></td>
+            <td><button class="key-btn" data-val="^b"><sup>a</sup><sup>b</sup></button></td>
+            <td><button class="key-btn" data-val="abs("> |a|</button></td>
+            <td><button class="key-btn" data-val="sqrt(">√</button></td>
+            <td><button class="key-btn" data-val="root(,"> <span style="font-size:.9em;">n√</span></button></td>
+            <td><button class="key-btn" data-val="pi">π</button></td>
+          </tr>
+          <tr>
+            <td><button class="key-btn" data-val="sin(">sin</button></td>
+            <td><button class="key-btn" data-val="cos(">cos</button></td>
+            <td><button class="key-btn" data-val="tan(">tan</button></td>
+            <td><button class="key-btn" data-val="(">(</button></td>
+            <td><button class="key-btn" data-val=")">)</button></td>
+            <td><button class="key-btn" data-val=",">,</button></td>
+          </tr>
+        </table>
+      </div>
+      <!-- Function pad -->
+      <div class="tab-pane fade keypad-panel" id="funcpad">
+        <table class="keypad-table">
+          <tr>
+            <td><button class="key-btn" data-val="log(">log</button></td>
+            <td><button class="key-btn" data-val="log10(">log₁₀</button></td>
+            <td><button class="key-btn" data-val="exp(">exp</button></td>
+            <td><button class="key-btn" data-val="factorial(">n!</button></td>
+            <td><button class="key-btn" data-val="mean(">mean</button></td>
+            <td><button class="key-btn" data-val="stdev(">stdev</button></td>
+          </tr>
+          <tr>
+            <td><button class="key-btn" data-val="compound_interest(">cmpd int</button></td>
+            <td><button class="key-btn" data-val="round(">rnd</button></td>
+            <td><button class="key-btn" data-val="mod(">mod</button></td>
+            <td><button class="key-btn" data-val="e">e</button></td>
+            <td><button class="key-btn" data-val="|">|</button></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <!-- abc pad -->
+      <div class="tab-pane fade keypad-panel" id="abcpad">
+        <table class="keypad-table">
+          <tr>
+            <td><button class="key-btn" data-val="a">a</button></td>
+            <td><button class="key-btn" data-val="b">b</button></td>
+            <td><button class="key-btn" data-val="x">x</button></td>
+            <td><button class="key-btn" data-val="y">y</button></td>
+            <td><button class="key-btn" data-val="z">z</button></td>
+            <td><button class="key-btn" data-val="ans">ans</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- Scientific mode tools -->
+    <div class="d-flex align-items-center mt-3 mb-2">
+        <div class="btn-group me-3" role="group">
+            <button id="deg-btn" class="btn btn-outline-secondary btn-sm active" type="button">DEG</button>
+            <button id="rad-btn" class="btn btn-outline-secondary btn-sm" type="button">RAD</button>
+        </div>
+        <button class="btn btn-light btn-sm me-2" id="undo-btn" type="button">&larr;</button>
+        <button class="btn btn-light btn-sm me-2" id="redo-btn" type="button">&rarr;</button>
+        <button class="btn btn-warning btn-sm" id="clear-btn" type="button">clear all</button>
+    </div>
+    <!-- Number pad -->
+    <table class="keypad-table mb-2">
+      <tr>
+        <td><button class="key-btn" data-val="7">7</button></td>
+        <td><button class="key-btn" data-val="8">8</button></td>
+        <td><button class="key-btn" data-val="9">9</button></td>
+        <td><button class="key-btn op-btn" data-val="/">÷</button></td>
+        <td rowspan="2"><button class="key-btn equals-btn" id="equals-btn" style="height:100px" type="button">&#9166;</button></td>
+      </tr>
+      <tr>
+        <td><button class="key-btn" data-val="4">4</button></td>
+        <td><button class="key-btn" data-val="5">5</button></td>
+        <td><button class="key-btn" data-val="6">6</button></td>
+        <td><button class="key-btn op-btn" data-val="*">×</button></td>
+      </tr>
+      <tr>
+        <td><button class="key-btn" data-val="1">1</button></td>
+        <td><button class="key-btn" data-val="2">2</button></td>
+        <td><button class="key-btn" data-val="3">3</button></td>
+        <td><button class="key-btn op-btn" data-val="-">−</button></td>
+        <td rowspan="2"><button class="key-btn special" id="backspace-btn" style="height:100px" type="button">&#9003;</button></td>
+      </tr>
+      <tr>
+        <td><button class="key-btn" data-val="0">0</button></td>
+        <td><button class="key-btn" data-val=".">.</button></td>
+        <td><button class="key-btn" data-val="%">%</button></td>
+        <td><button class="key-btn op-btn" data-val="+">+</button></td>
+      </tr>
+    </table>
+    <!-- Result Area -->
+    {% if result != "" %}
+     <div class="result mt-2" style="font-size:1.27em;">Result: <strong>{{ result }}</strong></div>
+    {% endif %}
+    {% if error %}
+      <div class="error mt-2" style="font-size:1.12em;">Error: {{ error }}</div>
+    {% endif %}
+    <!-- Hidden form for calculation -->
+    <form method="post" id="hidden-calc-form" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" name="expression" id="hidden-expression">
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let display = document.getElementById('calc-display');
+let undoStack = [], redoStack = [];
+let DEG_mode = true;
+
+// Utility functions
+function appendToDisplay(val) {
+    undoStack.push(display.innerText);
+    redoStack = [];
+    // Smart replaces for human input
+    if(val==='^2') display.innerText += '^2';
+    else if(val==='^b') display.innerText += '^';
+    else if(val==='abs(') display.innerText += 'abs(';
+    else if(val==='sqrt(') display.innerText += 'sqrt(';
+    else if(val==='root(,') display.innerText += 'root(';
+    else display.innerText += val;
+}
+function setDisplay(val) { display.innerText = val; }
+function backspaceDisplay() {
+    undoStack.push(display.innerText);
+    redoStack = [];
+    setDisplay(display.innerText.slice(0, -1));
+}
+function undoDisplay() {
+    if (undoStack.length) {
+      redoStack.push(display.innerText);
+      setDisplay(undoStack.pop());
+    }
+}
+function redoDisplay() {
+    if (redoStack.length) {
+      undoStack.push(display.innerText);
+      setDisplay(redoStack.pop());
+    }
+}
+function clearDisplay() {
+    undoStack.push(display.innerText); redoStack = [];
+    setDisplay("");
+}
+function submitCalc() {
+    // Mode handling for sin, cos, tan if DEG
+    let expr = display.innerText;
+    if (DEG_mode) {
+        expr = expr.replace(/sin\(([^)]+)\)/g, (_,x)=>`sin((${x})*pi/180)`)
+                   .replace(/cos\(([^)]+)\)/g, (_,x)=>`cos((${x})*pi/180)`)
+                   .replace(/tan\(([^)]+)\)/g, (_,x)=>`tan((${x})*pi/180)`);
+    }
+    document.getElementById('hidden-expression').value = expr; 
+    document.getElementById('hidden-calc-form').submit();
+}
+
+// Bind number pad and function buttons
+document.querySelectorAll('.key-btn').forEach(btn => {
+    btn.onclick = function() { appendToDisplay(this.dataset.val); }
+});
+document.getElementById('backspace-btn').onclick = backspaceDisplay;
+document.getElementById('undo-btn').onclick = undoDisplay;
+document.getElementById('redo-btn').onclick = redoDisplay;
+document.getElementById('clear-btn').onclick = clearDisplay;
+document.getElementById('equals-btn').onclick = submitCalc;
+
+// DEG/RAD toggle
+document.getElementById('deg-btn').onclick = function(){
+    DEG_mode = true; this.classList.add('active');
+    document.getElementById('rad-btn').classList.remove('active');
+};
+document.getElementById('rad-btn').onclick = function(){
+    DEG_mode = false; this.classList.add('active');
+    document.getElementById('deg-btn').classList.remove('active');
+};
+
+// Allow enter key to calculate
+document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); submitCalc(); }
+});
+// Focus display/cursor on click
+display.onclick = function() { /* optionally allow manual edits if desired */ };
+</script>
+</body>
+</html>

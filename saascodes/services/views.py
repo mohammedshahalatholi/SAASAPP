@@ -22,14 +22,20 @@ def add_services(request):
     return(render(request,'static/add_services.html',{'sfrm':sfrm}))
 
 def edit_services(request,pk):
+     print('its request',request)
+     print('requestpost',request.POST)
      eservises=Services.objects.get(pk=pk)
+     print('its eservises',eservises)
      if request.method=='POST':
          efrm=servicefrm(request.POST,instance=eservises)
+         print('its e form',efrm)
          if efrm.is_valid():
             efrm.save()
             return(redirect('show_services'))
      else:
          efrm=servicefrm(instance=eservises)
+         print('its instanse',eservises)
+         print('its e form else',efrm)
      return(render(request,'static/eservices.html',{'efrm':efrm}))
 
 
