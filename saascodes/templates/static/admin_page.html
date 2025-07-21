@@ -58,33 +58,40 @@
         <!-- Header -->
         <div class="row">
             <div class="col-12 header-title">
-                CRUD PROJECT
+                Admin
             </div>
         </div>
         <!-- Main Sections -->
         <div class="row">
             <!-- Add Student Form -->
             <div class="col-md-5">
-                <div class="section-title">ADD STUDENT</div>
-                <form>
-                    <div class="form-group">
-                        <label for="name" class="form-label">Name:</label>
-                        <input type="text" id="name" class="form-control" value="ASWIN">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" id="email" class="form-control" value="vagoto4472@ateampc.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="form-label">Password:</label>
-                        <input type="password" id="password" class="form-control" value="********">
-                    </div>
-                    <button type="button" class="btn btn-custom">ADD</button>
+                <div class="section-title">ADD Service</div>
+                <!-- form type here -->
+                
+                <form action="" method="POST" novalidate>
+                    {% csrf_token %}
+    
+                    {% for field in sfrm %}
+                        <div class="mb-3">
+                            {{ field.label_tag }} 
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+    
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-send me-2"></i>Send Message
+                    </button>
                 </form>
             </div>
             <!-- Student Data Table -->
             <div class="col-md-7">
-                <div class="section-title">STUDENT DATA</div>
+                <div class="section-title">Service DATA</div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

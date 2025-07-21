@@ -8,18 +8,27 @@ def show_services(request):
 
 def admin_services(request):
     data=Services.objects.all()
-    return(render(request,'static/admin_page.html',{'data':data}))
-
-def add_services(request):
-    if request.method =='POST':
-        sfrm=servicefrm(request.POST)
-        print(sfrm)
+    if request.method == 'POST':
+        sfrm = servicefrm(request.POST)
         if sfrm.is_valid():
             sfrm.save()
-            return(redirect('show_services'))
+            return redirect('show_services')
     else:
-        sfrm=servicefrm()
-    return(render(request,'static/add_services.html',{'sfrm':sfrm}))
+        sfrm = servicefrm()
+    return(render(request,'static/admin_page.html',{'data':data,'sfrm':sfrm}))
+
+def add_services(request):
+    if request.method == 'POST':
+        sfrm = servicefrm(request.POST)
+        if sfrm.is_valid():
+            sfrm.save()
+            return redirect('show_services')
+    else:
+        sfrm = servicefrm()
+    return render(request, 'static/add_services.html', {'sfrm': sfrm})
+
+
+# or use add_services.html
 
 def edit_services(request,pk):
      print('its request',request)
