@@ -12,7 +12,7 @@ def login_page(request):
         
         if myuser is not None:
             login(request,myuser)
-            return(render(request,'static/home_page.html',{'uname':uname}))
+            return(render(request,'home_page.html',{'uname':uname}))
             #return(redirect('home_page',{'uname':uname}))
         
         
@@ -20,7 +20,7 @@ def login_page(request):
             return(redirect('signup_page'))
 
             
-    return(render(request,'static/login_page.html'))
+    return(render(request,'login_page.html'))
 
 # def singup_page(request):
 #     if request.method=='POST':
@@ -44,7 +44,7 @@ def signup_page(request):
 
         # Check if user already exists
         if User.objects.filter(username=uname).exists():
-            return render(request, 'static/signup_page.html', {
+            return render(request, 'signup_page.html', {
                 'error': 'Username already exists. Please choose another.'
             })
 
@@ -55,8 +55,8 @@ def signup_page(request):
             return redirect('login_page')
         except IntegrityError as e:
             messages.error(request, "Something went wrong. Please try again.")
-            return render(request, 'static/signup_page.html', {
+            return render(request, 'signup_page.html', {
                 'error': f"Failed to create user: {str(e)}"
             })
 
-    return render(request, 'static/signup_page.html')
+    return render(request, 'signup_page.html')

@@ -19,4 +19,4 @@ def weather_dashboard(request):
     else:
         context = {'error': 'City not found. Please try again.'}
     
-    return render(request, 'static/weather_dashboard.html', {'context':context})
+    return render(request, 'weather_dashboard.html', {'context':context})

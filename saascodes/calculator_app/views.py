@@ -45,7 +45,7 @@ class Eval(ast.NodeVisitor):
 
 class CalculatorView(View):
     def get(self, request):
-        return render(request, "static/calculator_app.html")
+        return render(request, "calculator_app.html")
     def post(self, request):
         expr = request.POST.get("expression","")
         deg_mode = request.POST.get("deg_mode","1") == "1"
@@ -55,6 +55,6 @@ class CalculatorView(View):
                 result = Eval.eval_expr(expr, deg_mode)
             except Exception as ex:
                 error = str(ex)
-        return render(request, "static/calculator_app.html", {
+        return render(request, "calculator_app.html", {
             "expression": expr, "result": result, "error": error, "deg_mode": deg_mode
         })
