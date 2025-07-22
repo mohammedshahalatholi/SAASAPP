@@ -25,5 +25,6 @@ urlpatterns = [
     path('services/',include('services.urls')),
     path('weather/',include('weather_app.urls')),
     path('calculator/', include('calculator_app.urls')),
+     path('financenews/', include('news.urls')),
 ]
 
